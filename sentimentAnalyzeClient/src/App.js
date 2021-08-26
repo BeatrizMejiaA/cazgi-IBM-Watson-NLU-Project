@@ -1,8 +1,8 @@
+
 import './bootstrap.min.css';
 import './App.css';
 import EmotionTable from './EmotionTable.js';
 import React from 'react';
-
 class App extends React.Component {
   /*
   We are setting the component as a state named innercomp.
@@ -42,36 +42,31 @@ class App extends React.Component {
     let url = ".";
     let mode = this.state.mode
     url = url+"/" + mode + "/sentiment?"+ mode + "="+document.getElementById("textinput").value;
-
     fetch(url).then((response)=>{
         response.text().then((data)=>{
         this.setState({sentimentOutput:data});
         let output = data;
         let color = "white"
         switch(data) {
-          case "positive": color = "black";break;
-          case "negative": color = "black";break;
-          default: color = "black";
+          case "positive": color = "green";break;
+          case "negative": color = "red";break;
+          default: color = "yellow";
         }
         output = <div style={{color:{color},fontSize:20}}>{data}</div>
         this.setState({sentimentOutput:output});
       })});
   }
-
   sendForEmotionAnalysis = () => {
-
     this.setState({sentiment:false});
     let url = ".";
     let mode = this.state.mode
     url = url+"/" + mode + "/emotion?"+ mode + "="+document.getElementById("textinput").value;
-
     fetch(url).then((response)=>{
       response.json().then((data)=>{
       this.setState({sentimentOutput:<EmotionTable emotions={data}/>});
   })})  ;
   }
   
-
   render() {
     return (  
       <div className="App">
@@ -88,5 +83,4 @@ class App extends React.Component {
     );
     }
 }
-
 export default App;
